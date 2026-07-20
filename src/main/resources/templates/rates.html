@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanciAI - Rates & Conditions</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Cabeçalho (Atualizado com os links funcionando) -->
+<header class="header">
+    <div class="logo">FinanciAI</div>
+    <nav class="nav-links">
+        <a href="/">Simulate</a>
+        <a href="/rates" class="active">Rates</a>
+    </nav>
+    <button class="btn-login">Login</button>
+</header>
+
+<!-- Título Principal -->
+<section class="hero rates-hero">
+    <h1>Transparent Rates & Conditions</h1>
+    <p>Clear, competitive financing options tailored for high-stakes real estate investments. We<br>believe in absolute transparency—no hidden fees, just straightforward numbers.</p>
+</section>
+
+<main class="container rates-container">
+
+    <!-- Cards de Preços -->
+    <section class="pricing-grid">
+        <div class="pricing-card popular">
+            <span class="badge">MOST POPULAR</span>
+            <h2>Prime Tier</h2>
+            <p>For established portfolios exceeding $5M.</p>
+            <div class="rate-info">
+                <span class="rate-label">ANNUAL INTEREST STARTING AT</span>
+                <div class="rate-value">6.5<span>%</span></div>
+            </div>
+            <ul class="features">
+                <li><span class="icon-check">✔</span> Dedicated Advisor</li>
+                <li><span class="icon-check">✔</span> Priority Processing</li>
+            </ul>
+        </div>
+
+        <div class="pricing-card">
+            <h2>Standard Tier</h2>
+            <p>For individual investors and new developments.</p>
+            <div class="rate-info">
+                <span class="rate-label">ANNUAL INTEREST STARTING AT</span>
+                <div class="rate-value">8.2<span>%</span></div>
+            </div>
+            <ul class="features">
+                <li><span class="icon-check">✔</span> Digital Onboarding</li>
+                <li><span class="icon-check">✔</span> Standard Support</li>
+            </ul>
+        </div>
+
+        <div class="pricing-card">
+            <h2>Bridge Financing</h2>
+            <p>Short-term liquidity for immediate acquisitions.</p>
+            <div class="rate-info">
+                <span class="rate-label">MONTHLY INTEREST STARTING AT</span>
+                <div class="rate-value">0.9<span>%</span></div>
+            </div>
+            <ul class="features">
+                <li><span class="icon-check">✔</span> Fast Capital Deployment</li>
+                <li><span class="icon-check">✔</span> Up to 24 Months Term</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Tabela de Comparação -->
+    <section class="table-section card">
+        <h3>Amortization Systems: SAC vs PRICE</h3>
+        <div class="table-responsive">
+            <table class="comparison-table">
+                <thead>
+                <tr>
+                    <th>Feature</th>
+                    <th class="text-green">SAC (Constant Amortization)</th>
+                    <th>PRICE (French System)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Installment Value</td>
+                    <td>Decreasing over time</td>
+                    <td>Constant throughout term</td>
+                </tr>
+                <tr>
+                    <td>Principal Amortization</td>
+                    <td>Constant in every installment</td>
+                    <td>Increasing over time</td>
+                </tr>
+                <tr>
+                    <td>Total Interest Paid</td>
+                    <td>Lower total cost</td>
+                    <td>Higher total cost</td>
+                </tr>
+                <tr>
+                    <td>Ideal Profile</td>
+                    <td>Investors seeking lower long-term costs</td>
+                    <td>Investors needing predictable cash flow</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- FAQ / Perguntas Frequentes -->
+    <section class="faq-section">
+        <h3>Frequently Asked Questions</h3>
+        <div class="faq-container">
+            <details class="faq-item">
+                <summary>Are the rates fixed or variable?</summary>
+                <div class="faq-content">We offer both fixed and variable rates depending on the chosen tier and market conditions. Please consult with an advisor for current offerings.</div>
+            </details>
+            <details class="faq-item">
+                <summary>What is the minimum loan amount?</summary>
+                <div class="faq-content">The minimum loan amount for our standard tier starts at $100,000. For Prime Tier, portfolio values must exceed $5M.</div>
+            </details>
+            <details class="faq-item">
+                <summary>Are there pre-payment penalties?</summary>
+                <div class="faq-content">No, we believe in absolute transparency. You can pay off your financing early without any hidden pre-payment penalties.</div>
+            </details>
+        </div>
+    </section>
+
+</main>
+
+<!-- Rodapé Específico desta tela -->
+<!-- Rodapé -->
+<footer class="footer">
+    <div class="logo">FinanciAI</div>
+    <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Institutional Disclosure</a>
+    </div>
+    <div class="copyright">© 2024 Fintech Prime Real Estate Solutions. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

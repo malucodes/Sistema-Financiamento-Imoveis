@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanciAI - Simulador</title>
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- Cabeçalho -->
+<header class="header">
+    <div class="logo">FinanciAI</div>
+    <nav class="nav-links">
+        <a href="/" class="active">Simulate</a>
+        <a href="/rates">Rates</a>
+    </nav>
+    <a href="/login" class="btn-login" style="text-decoration: none;">Login</a>
+</header>
+
+<!-- Título Principal -->
+<section class="hero">
+    <h1>Simule o futuro do seu novo lar</h1>
+    <p>Descubra as melhores condições de financiamento para o seu próximo imóvel<br>de forma transparente, rápida e 100% digital.</p>
+</section>
+
+<!-- Container Principal (Dividido em Esquerda e Direita) -->
+<main class="container">
+
+    <!-- ESQUERDA: Formulário que envia os dados para o Java -->
+    <form action="/simular" method="post" class="card form-section">
+
+        <div class="form-group">
+            <label class="section-label">TIPO DE IMÓVEL</label>
+            <div class="radio-group type-group">
+                <label class="radio-card">
+                    <input type="radio" name="tipoImovel" value="Apartamento" checked>
+                    <div class="card-content">🏢 Apartamento</div>
+                </label>
+                <label class="radio-card">
+                    <input type="radio" name="tipoImovel" value="Casa">
+                    <div class="card-content">🏠 Casa</div>
+                </label>
+                <label class="radio-card">
+                    <input type="radio" name="tipoImovel" value="Terreno">
+                    <div class="card-content">⛰️ Terreno</div>
+                </label>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="label-row">
+                <label class="section-label">VALOR DO IMÓVEL</label>
+                <span class="value-display">R$ <span id="displayValorImovel">850.000</span>,00</span>
+            </div>
+            <input type="range" name="valorImovel" id="valorImovel" min="100000" max="5000000" step="10000" value="850000">
+            <div class="range-labels">
+                <span>R$ 100 mil</span>
+                <span>R$ 5 milhões</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="label-row">
+                <label class="section-label">VALOR DA ENTRADA</label>
+                <span class="value-display">R$ <span id="displayEntrada">170.000</span>,00</span>
+            </div>
+            <input type="range" name="valorEntrada" id="valorEntrada" min="20000" max="850000" step="5000" value="170000">
+            <div class="range-labels">
+                <span>20% (Mínimo)</span>
+                <span>100%</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="section-label">PRAZO DE FINANCIAMENTO</label>
+            <div class="radio-group prazo-group">
+                <label class="radio-card">
+                    <input type="radio" name="prazo" value="10">
+                    <div class="card-content">120 meses<br><small>10 anos</small></div>
+                </label>
+                <label class="radio-card">
+                    <input type="radio" name="prazo" value="20">
+                    <div class="card-content">240 meses<br><small>20 anos</small></div>
+                </label>
+                <label class="radio-card">
+                    <input type="radio" name="prazo" value="30" checked>
+                    <div class="card-content">360 meses<br><small>30 anos</small></div>
+                </label>
+                <label class="radio-card">
+                    <input type="radio" name="prazo" value="35">
+                    <div class="card-content">420 meses<br><small>35 anos</small></div>
+                </label>
+            </div>
+        </div>
+
+        <!-- Botão para disparar o cálculo no Java -->
+        <button type="submit" class="btn-calcular">Calcular Simulação</button>
+    </form>
+
+    <!-- DIREITA: Resultados recebidos do Java -->
+    <aside class="card result-section">
+        <h2>Resumo da Simulação</h2>
+        <p class="subtitle">Condições estimadas baseadas no perfil selecionado.</p>
+
+        <div class="result-box">
+            <label class="section-label">PRESTAÇÃO INICIAL ESTIMADA</label>
+            <!-- O Thymeleaf substitui o R$ 0,00 pelo valor calculado no Java -->
+            <div class="main-price">R$ <span th:text="${parcelaInicial != null ? parcelaInicial : '0,00'}">6.124,30</span></div>
+
+            <hr class="divider">
+
+            <div class="details-grid">
+                <div class="detail-item">
+                    <span class="detail-label">Valor Financiado</span>
+                    <span class="detail-value" th:text="${valorFinanciado != null ? 'R$ ' + valorFinanciado : 'R$ 680.000,00'}">R$ 680.000,00</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Taxa de Juros</span>
+                    <span class="detail-value text-green">8.5% a.a. ℹ️</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Sistema de Amortização</span>
+                    <span class="detail-value">SAC</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Última Prestação</span>
+                    <span class="detail-value" th:text="${ultimaParcela != null ? 'R$ ' + ultimaParcela : 'R$ 1.932,15'}">R$ 1.932,15</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-consultor">Falar com Consultor →</button>
+        <p class="disclaimer">Sujeito à análise de crédito e aprovação.</p>
+    </aside>
+</main>
+
+<!-- Rodapé -->
+<footer class="footer">
+    <div class="logo">FinanciAI</div>
+    <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Institutional Disclosure</a>
+    </div>
+    <div class="copyright">© 2024 Fintech Prime Real Estate Solutions. All rights reserved.</div>
+</footer>
+
+<!-- Script simples para atualizar os valores na tela ao mexer na barra -->
+<script>
+    const sliderImovel = document.getElementById("valorImovel");
+    const displayImovel = document.getElementById("displayValorImovel");
+    const sliderEntrada = document.getElementById("valorEntrada");
+    const displayEntrada = document.getElementById("displayEntrada");
+
+    sliderImovel.oninput = function() {
+        displayImovel.innerHTML = Number(this.value).toLocaleString('pt-BR');
+        sliderEntrada.max = this.value; // A entrada não pode ser maior que o imóvel
+    }
+    sliderEntrada.oninput = function() {
+        displayEntrada.innerHTML = Number(this.value).toLocaleString('pt-BR');
+    }
+</script>
+</body>
+</html>
