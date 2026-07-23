@@ -34,18 +34,35 @@
         <div class="form-group">
             <label class="section-label">TIPO DE IMÓVEL</label>
             <div class="radio-group type-group">
+
+                <!-- CARD DO APARTAMENTO -->
                 <label class="radio-card">
                     <input type="radio" name="tipoImovel" value="Apartamento" checked>
-                    <div class="card-content">🏢 Apartamento</div>
+                    <div class="card-content">
+                        <!-- Chamando o arquivo SVG da pasta images -->
+                        <img src="/images/apartamento.svg" class="icon-imovel" alt="Apartamento">
+                        <span>Apartamento</span>
+                    </div>
                 </label>
+
+                <!-- CARD DA CASA -->
                 <label class="radio-card">
                     <input type="radio" name="tipoImovel" value="Casa">
-                    <div class="card-content">🏠 Casa</div>
+                    <div class="card-content">
+                        <img src="/images/casa.svg" class="icon-imovel" alt="Casa">
+                        <span>Casa</span>
+                    </div>
                 </label>
+
+                <!-- CARD DO TERRENO -->
                 <label class="radio-card">
                     <input type="radio" name="tipoImovel" value="Terreno">
-                    <div class="card-content">⛰️ Terreno</div>
+                    <div class="card-content">
+                        <img src="/images/terreno.svg" class="icon-imovel" alt="Terreno">
+                        <span>Terreno</span>
+                    </div>
                 </label>
+
             </div>
         </div>
 
