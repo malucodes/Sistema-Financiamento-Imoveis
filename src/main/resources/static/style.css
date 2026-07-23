@@ -66,56 +66,8 @@ body {
 }
 
 /* Layout Principal */
-.container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
-    max-width: 1100px;
-    margin: 0 auto 80px;
-    padding: 0 20px;
-}
 
-.card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 40px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-}
-
-/* Tipografia Formulário */
-
-/* Estado Normal: Fica cinza e levemente transparente */
-.radio-card .icon-imovel {
-    width: 24px;
-    height: 24px;
-    filter: grayscale(100%) opacity(0.5);
-    transition: all 0.2s ease-in-out;
-}
-
-/* Estado Selecionado: Remove o filtro e revela a cor verde original do seu SVG */
-.radio-card input[type="radio"]:checked + .card-content .icon-imovel {
-    filter: grayscale(0%) opacity(1);
-}
-
-/* A cor do texto para o estado selecionado */
-.radio-card input[type="radio"]:checked + .card-content {
-    color: #047857;
-    border-color: #047857;
-}
-
-/* ESTADO NORMAL: Força a imagem a ficar cinza */
-.radio-card .icon-imovel {
-    width: 24px;
-    height: 24px;
-    filter: grayscale(100%) opacity(0.5);
-    transition: all 0.2s ease-in-out;
-}
-
-/* ESTADO SELECIONADO: Tira o filtro e volta a ser verde */
-.radio-card input[type="radio"]:checked + .card-content .icon-imovel {
-    filter: grayscale(0%) opacity(1);
-}
-
+/* Tipografia e Alinhamento dos Títulos e Valores */
 .section-label {
     font-size: 11px;
     font-weight: 600;
@@ -141,6 +93,22 @@ body {
     font-weight: 700;
 }
 
+.container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    max-width: 1100px;
+    margin: 0 auto 80px;
+    padding: 0 20px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
 /* Custom Radio Buttons (Cards clicáveis) */
 .radio-group {
     display: grid;
@@ -154,6 +122,7 @@ body {
     display: none;
 }
 
+/* Estado Normal do Card (Não Selecionado) */
 .radio-card .card-content {
     border: 1px solid #e5e7eb;
     border-radius: 8px;
@@ -163,12 +132,33 @@ body {
     font-weight: 500;
     transition: all 0.2s;
     color: #4b5563;
+
+    /* 👇 AS REGRAS DE ALINHAMENTO QUE FALTARAM 👇 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Espaço entre o ícone e o texto */
 }
 
+/* Estado Normal da Imagem: Fica cinza e levemente transparente */
+.radio-card .icon-imovel {
+    width: 24px;
+    height: 24px;
+    filter: grayscale(100%) opacity(0.5);
+    transition: all 0.2s ease-in-out;
+}
+
+/* Estado Selecionado do Card (Fica Verde) */
 .radio-card input:checked + .card-content {
     border: 2px solid #047857;
     color: #047857;
     background-color: #f0fdf4;
+}
+
+/* Estado Selecionado da Imagem: Remove o filtro e revela o verde do SVG */
+.radio-card input[type="radio"]:checked + .card-content .icon-imovel {
+    filter: grayscale(0%) opacity(1);
 }
 
 .radio-card small {
