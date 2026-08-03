@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FinanciAI - Simulador</title>
-    <link rel="stylesheet" href="/style.css?v=2">
+    <link rel="stylesheet" href="/style.css?v=4">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -29,7 +29,7 @@
 <main class="container">
 
     <!-- ESQUERDA: Formulário que envia os dados para o Java -->
-    <form action="/simular" method="post" class="card form-section">
+    <form id="formSimulador" action="/simular" method="post" class="card form-section">
 
         <div class="form-group">
             <label class="section-label">TIPO DE IMÓVEL</label>
@@ -123,35 +123,48 @@
 
         <div class="result-box">
             <label class="section-label">PRESTAÇÃO INICIAL ESTIMADA</label>
-            <!-- O Thymeleaf substitui o R$ 0,00 pelo valor calculado no Java -->
-            <div class="main-price">R$ <span th:text="${parcelaInicial != null ? parcelaInicial : '0,00'}">6.124,30</span></div>
+            <div class="main-price">R$ <span th:text="${parcelaInicial != null ? parcelaInicial : '0,00'}">0,00</span></div>
 
             <hr class="divider">
 
             <div class="details-grid">
                 <div class="detail-item">
                     <span class="detail-label">Valor Financiado</span>
-                    <span class="detail-value" th:text="${valorFinanciado != null ? 'R$ ' + valorFinanciado : 'R$ 680.000,00'}">R$ 680.000,00</span>
+                    <!-- O Thymeleaf agora controla o valor financiado dinamicamente -->
+                    <span class="detail-value" th:text="${valorFinanciado != null ? 'R$ ' + valorFinanciado : 'R$ 0,00'}">R$ 0,00</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">Taxa de Juros</span>
-                    <span class="detail-value text-green">8.5% a.a. ℹ️</span>
+                    <!-- O Thymeleaf pega a taxa do Java -->
+                    <span class="detail-value text-green" th:text="${taxaJuros != null ? taxaJuros : '---'}">---</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">Sistema de Amortização</span>
-                    <span class="detail-value">SAC</span>
+                    <!-- O Thymeleaf pega o sistema do Java -->
+                    <span class="detail-value" th:text="${sistemaAmortizacao != null ? sistemaAmortizacao : '---'}">---</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">Última Prestação</span>
-                    <span class="detail-value" th:text="${ultimaParcela != null ? 'R$ ' + ultimaParcela : 'R$ 1.932,15'}">R$ 1.932,15</span>
+                    <span class="detail-value" th:text="${ultimaParcela != null ? 'R$ ' + ultimaParcela : 'R$ 0,00'}">R$ 0,00</span>
                 </div>
             </div>
         </div>
 
-        <button class="btn-consultor">Falar com Consultor →</button>
+        <!-- Botão Alterado -->
+        <button type="button" class="btn-consultor" onclick="salvarSimulacao()">Salvar Simulação 💾</button>
         <p class="disclaimer">Sujeito à análise de crédito e aprovação.</p>
     </aside>
 </main>
+
+<!-- Modal de Validação dos 20% -->
+<div id="modalValidacao" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <div style="font-size: 40px; margin-bottom: 10px;">⚠️</div>
+        <h3>Atenção à Entrada Mínima</h3>
+        <p>A regra de financiamento exige que a entrada seja de pelo menos <strong>20%</strong> do valor do imóvel. Por favor, ajuste o controle deslizante de entrada para prosseguir.</p>
+        <button type="button" class="btn-modal" onclick="fecharModal()">Ajustar Valores</button>
+    </div>
+</div>
 
 <!-- Rodapé -->
 <footer class="footer">
@@ -165,8 +178,8 @@
     <div class="copyright">© 2024 Fintech Prime Real Estate Solutions. All rights reserved.</div>
 </footer>
 
-<!-- Script simples para atualizar os valores na tela ao mexer na barra -->
 <script>
+    // Configuração dos controles deslizantes (Barras)
     const sliderImovel = document.getElementById("valorImovel");
     const displayImovel = document.getElementById("displayValorImovel");
     const sliderEntrada = document.getElementById("valorEntrada");
@@ -174,10 +187,52 @@
 
     sliderImovel.oninput = function() {
         displayImovel.innerHTML = Number(this.value).toLocaleString('pt-BR');
-        sliderEntrada.max = this.value; // A entrada não pode ser maior que o imóvel
+        sliderEntrada.max = this.value;
     }
     sliderEntrada.oninput = function() {
         displayEntrada.innerHTML = Number(this.value).toLocaleString('pt-BR');
+    }
+
+    // INTERCEPTADOR DO FORMULÁRIO (Garante a regra dos 20% e bloqueia 100%)
+    const formSimulacao = document.getElementById('formSimulador');
+
+    formSimulacao.addEventListener('submit', function(event) {
+        const vImovel = parseFloat(sliderImovel.value);
+        const vEntrada = parseFloat(sliderEntrada.value);
+
+        const minimoExigido = vImovel * 0.20;
+
+        // Puxa os elementos do modal para podermos trocar o texto
+        const modal = document.getElementById("modalValidacao");
+        const tituloModal = modal.querySelector("h3");
+        const textoModal = modal.querySelector("p");
+
+        // REGRA 1: Entrada menor que 20%
+        if (vEntrada < minimoExigido) {
+            event.preventDefault(); // Trava o envio pro Java
+            tituloModal.innerText = "Atenção à Entrada Mínima";
+            tituloModal.style.color = "#ef4444"; // Fica Vermelho
+            textoModal.innerHTML = "A regra de financiamento exige que a entrada seja de pelo menos <strong>20%</strong> do valor do imóvel. Por favor, ajuste o controle deslizante de entrada para prosseguir.";
+            modal.style.display = "flex";
+        }
+        // REGRA 2: Entrada igual ou maior que 100% do Imóvel
+        else if (vEntrada >= vImovel) {
+            event.preventDefault(); // Trava o envio pro Java
+            tituloModal.innerText = "Pagamento à Vista?";
+            tituloModal.style.color = "#f59e0b"; // Fica Laranja/Amarelo
+            textoModal.innerHTML = "Você informou uma entrada igual ao valor total do imóvel. Nesse caso, não há valor para ser financiado! <strong>Por favor, diminua a entrada para simular.</strong>";
+            modal.style.display = "flex";
+        }
+    });
+
+    // Função para fechar o modal
+    function fecharModal() {
+        document.getElementById("modalValidacao").style.display = "none";
+    }
+
+    // Função do novo botão
+    function salvarSimulacao() {
+        alert("Funcionalidade em desenvolvimento! Em breve você poderá salvar este financiamento no histórico da sua conta.");
     }
 </script>
 </body>

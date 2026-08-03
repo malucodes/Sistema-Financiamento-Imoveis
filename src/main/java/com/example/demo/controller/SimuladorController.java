@@ -65,17 +65,24 @@ public class SimuladorController {
 
             // Se o financiamento foi criado com sucesso, faz o cálculo
             if (financiamento != null) {
-                // Chama o SEU método de cálculo (Polimorfismo em ação)
                 double parcelaCalculada = financiamento.calcularPagamentoMensal();
 
-                // Formatador de moeda para transformar "6124.3" em "6.124,30" (Padrão Brasil)
                 NumberFormat formatador = NumberFormat.getInstance(new Locale("pt", "BR"));
                 formatador.setMinimumFractionDigits(2);
                 formatador.setMaximumFractionDigits(2);
 
-                // Envia os resultados para a tela HTML usando os nomes das variáveis definidas no th:text
+                // Variáveis dinâmicas para a interface
                 model.addAttribute("parcelaInicial", formatador.format(parcelaCalculada));
                 model.addAttribute("valorFinanciado", formatador.format(valorFinanciado));
+
+                // 1. Envia a taxa formatada
+                model.addAttribute("taxaJuros", "8.5% a.a.");
+
+                // 2. Define o sistema de amortização baseado no tipo do imóvel
+                String sistema = tipoImovel.equals("Terreno") ? "Price" : "SAC";
+                model.addAttribute("sistemaAmortizacao", sistema);
+
+                // 3. Última parcela (Se for SAC, você pode adicionar a lógica de diminuição no seu modelo depois, por enquanto reflete a variável)
                 model.addAttribute("ultimaParcela", formatador.format(parcelaCalculada));
             }
 
